@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Check-In Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+        .day {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .checked-in {
+            background-color: lightgreen;
+            color: white;
+        }
+        .current-day {
+            background-color: lightblue;
+        }
+        #checkInButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <h1>Daily Check-In Calendar</h1>
+    <div id="calendar"></div>
+    <button id="checkInButton">Check In</button>
+
+    <script >// calendar.js
+
+        const calendarElement = document.getElementById('calendar');
+        const checkInButton = document.getElementById('checkInButton');
+        
+        // Get the current date
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+        
+        // Initialize check-ins from localStorage
+        let checkIns = JSON.parse(localStorage.getItem('checkIns')) || {};
+        
+        // Function to render the calendar
+        function renderCalendar(month, year) {
+            calendarElement.innerHTML = ''; // Clear previous calendar
+        
+            // Days of the week
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            daysOfWeek.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                dayElement.style.fontWeight = 'bold';
+                calendarElement.appendChild(dayElement);
+            });
+        
+            // Get the first day of the month and the number of days in the month
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+            // Blank spaces for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const blankDay = document.createElement('div');
+                calendarElement.appendChild(blankDay);
+            }
+        
+            // Populate days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                dayElement.classList.add('day');
+        
+                // Check if the user has checked in on this day
+                const dateKey = `${year}-${month + 1}-${day}`;
+                if (checkIns[dateKey]) {
+                    dayElement.classList.add('checked-in');
+                }
+        
+                // Highlight current day
+                if (day === today.getDate() && month === currentMonth && year === currentYear) {
+                    dayElement.classList.add('current-day');
+                }
+        
+                calendarElement.appendChild(dayElement);
+            }
+        }
+        
+        // Function to handle the check-in
+        function handleCheckIn() {
+            const dateKey = `${currentYear}-${currentMonth + 1}-${today.getDate()}`;
+            checkIns[dateKey] = true;
+        
+            // Save to localStorage
+            localStorage.setItem('checkIns', JSON.stringify(checkIns));
+        
+            // Re-render the calendar to show the check-in
+            renderCalendar(currentMonth, currentYear);
+        
+            alert('Check-in successful!');
+        }
+        
+        // Attach event listener to the check-in button
+        checkInButton.addEventListener('click', handleCheckIn);
+        
+        // Render the calendar when the page loads
+        renderCalendar(currentMonth, currentYear);
+        </script>
+</body>
+</html>
+

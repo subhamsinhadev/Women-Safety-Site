@@ -1,0 +1,40 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panic Alarm</title>
+</head>
+<body>
+    <button id="panicButton">Panic Alarm</button>
+    <audio>
+       c:\Users\lenovo\Downloads\panic-button (1).mp3 
+    </audio>
+    <script>
+        // Select the button and audio elements
+const panicButton = document.getElementById('panicButton');
+const alarmSound = document.getElementById('alarmSound');
+
+// Function to play the alarm sound
+function playAlarm() {
+    alarmSound.play();
+}
+
+// Attach the event listener to the button
+panicButton.addEventListener('click', playAlarm);
+    </script>
+
+
+<style>
+    #panicButton {
+        font-size: 20px;
+        padding: 10px 20px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #panicButton:hover {
+        background-color: darkred;
+    }
+</style></body></html>

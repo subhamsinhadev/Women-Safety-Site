@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer with Animated Social Buttons, Links, and Copyright</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(to right, #8e2de2, #4a00e0); /* Beautiful Gradient Background */
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 40px 0;
+            color: white;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .social-button {
+            background-color: #444;
+            border-radius: 50%;
+            padding: 20px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s, background-color 0.3s;
+            overflow: hidden;
+        }
+
+        .social-button:hover {
+            background-color: #555;
+            transform: scale(1.1); /* Scale animation */
+        }
+
+        .social-button img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.5s;
+        }
+
+        .social-button:hover img {
+            transform: scale(1.2); /* Slightly enlarge the image */
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ddd;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Footer with social media buttons, text links, and copyright -->
+    <footer class="footer">
+        <div class="social-buttons">
+            <a href="https://www.instagram.com" class="social-button" aria-label="Instagram">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+            </a>
+            <a href="https://www.facebook.com" class="social-button" aria-label="Facebook">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+            </a>
+            <a href="https://www.twitter.com" class="social-button" aria-label="Twitter">
+                <img src="TWITTER.png" alt="Twitter">
+            </a>
+            <a href="https://www.youtube.com" class="social-button" aria-label="YouTube">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube">
+            </a>
+            <a href="https://www.github.com" class="social-button" aria-label="GitHub">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="#home" onclick="alert('You clicked on Home')">Home</a>
+            <a href="#news" onclick="alert('You clicked on News')">News</a>
+            <a href="#about" onclick="alert('You clicked on About')">About</a>
+            <a href="#contact" onclick="alert('You clicked on Contact Us')">Contact Us</a>
+            <a href="#team" onclick="alert('You clicked on Our Team')">Our Team</a>
+        </div>
+        <div class="copyright">
+            Copyright © Isha
+        </div>
+    </footer>
+
+</body>
+</html>

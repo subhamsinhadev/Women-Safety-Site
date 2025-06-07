@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Alert</title>
+    <script defer>
+        window.onload = function() {
+            const button = document.querySelector("button");
+
+            if ("Notification" in window) {
+                button.addEventListener("click", () => {
+                    Notification.requestPermission().then(perm => {
+                        if (perm === "granted") {
+                            new Notification("Alert", {
+                                body: "Please Move to a new Area immediately",
+                                icon: "https://iili.io/dNTqMy7.png",  <!-- Replace with the actual icon URL -->
+                                data: { message: "Safety Alert" }
+                            });
+                        }
+                    });
+                });
+            } else {
+                alert("Notifications are not supported by your browser.");
+            }
+        };
+    </script>
+</head>
+<body>
+    <button>Trigger Alert Notification</button>
+</body>
+</html>

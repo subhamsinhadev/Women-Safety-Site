@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighbourhood Scores</title>
+    <link rel="stylesheet" href="neighbour.css">
+    <img src="fy.jpg" alt="img" class="img">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Neighbourhood Scores</h1>
+
+        <div class="neighbourhood-input">
+            <label for="neighbourhood-name">Neighbourhood Name:</label>
+            <input type="text" id="neighbourhood-name" placeholder="Enter neighbourhood name">
+        </div>
+
+        <div class="criteria-inputs">
+            <div>
+                <label for="safety">Safety:</label>
+                <input type="number" id="safety" min="1" max="10" placeholder="Score (1-10)">
+            </div>
+
+            <div>
+                <label for="amenities">Amenities:</label>
+                <input type="number" id="amenities" min="1" max="10" placeholder="Score (1-10)">
+            </div>
+
+            <div>
+                <label for="cost-of-living">Cost of Living:</label>
+                <input type="number" id="cost-of-living" min="1" max="10" placeholder="Score (1-10)">
+            </div>
+        </div>
+        <div>
+            <label for="womens-safety">Women's Safety:</label>
+            <input type="number" id="womens-safety" min="1" max="10" placeholder="Score (1-10)">
+        </div>
+        
+        <button id="find-nearest-help">Find Nearest Help</button>
+<div id="map"></div> <!-- Google Map container -->
+
+<div>
+    <label for="report-issue">Report an Unsafe Area:</label>
+    <textarea id="report-issue" placeholder="Describe the issue"></textarea>
+    <button id="submit-report">Submit Report</button>
+</div>
+<ul id="report-list"></ul> <!-- List unsafe areas -->
+
+        <button id="add-score">Add Neighbourhood</button>
+
+        <h2>Neighbourhood Scores List</h2>
+        <ul id="neighbourhood-list">
+            <!-- Neighbourhoods with scores will be added here -->
+        </ul>
+    </div>
+<style>/* Basic reset for margins and padding */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #FFDFD6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .img {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        width: 100px;
+
+
+
+    }
+    .container {
+        background-color:#E3A5C7;
+        width: 100%;
+        max-width: 500px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        font-family:Georgia, 'Times New Roman', Times, serif;
+    }
+    
+    h1, h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    
+    label {
+        display: block;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 8px;
+    }
+    
+    input[type="text"], input[type="number"], textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+        border-color: #007BFF;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+    
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #694F8E;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+    #neighbourhood-list, #report-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    #neighbourhood-list li, #report-list li {
+        background-color: #f0f0f0;
+        padding: 15px;
+        margin: 10px 0;
+        border-left: 4px solid #007BFF;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    #neighbourhood-list li strong {
+        color: #333;
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    /* Map container styling */
+    #map {
+        height: 300px;
+        background-color: #ddd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 600px) {
+        .container {
+            width: 90%;
+            padding: 20px;
+        }
+    }
+    </style>
+    <script>document.getElementById('add-score').addEventListener('click', function() {
+        // Get values from input fields
+        const neighbourhoodName = document.getElementById('neighbourhood-name').value;
+        const safetyScore = document.getElementById('safety').value;
+        const amenitiesScore = document.getElementById('amenities').value;
+        const costOfLivingScore = document.getElementById('cost-of-living').value;
+    
+        // Validate inputs
+        if (!neighbourhoodName || !safetyScore || !amenitiesScore || !costOfLivingScore) {
+            alert("Please fill out all fields.");
+            return;
+        }
+    
+        // Create new list item with neighbourhood name and scores
+        const neighbourhoodList = document.getElementById('neighbourhood-list');
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <strong>${neighbourhoodName}</strong>: 
+            Safety - ${safetyScore}, 
+            Amenities - ${amenitiesScore}, 
+            Cost of Living - ${costOfLivingScore}
+        `;
+    
+        // Append the new neighbourhood to the list
+        neighbourhoodList.appendChild(listItem);
+    
+        // Clear input fields
+        document.getElementById('neighbourhood-name').value = '';
+        document.getElementById('safety').value = '';
+        document.getElementById('amenities').value = '';
+        document.getElementById('cost-of-living').value = '';
+    });
+    const womensSafetyScore = document.getElementById('womens-safety').value;
+    if (!womensSafetyScore) {
+        alert("Please enter the Women's Safety score.");
+        return;
+    }
+    listItem.innerHTML += `, Women's Safety - ${womensSafetyScore}`;
+    document.getElementById('submit-report').addEventListener('click', function() {
+        const reportText = document.getElementById('report-issue').value;
+        if (!reportText) {
+            alert("Please describe the issue.");
+            return;
+        }
+        const reportList = document.getElementById('report-list');
+        const reportItem = document.createElement('li');
+        reportItem.textContent = reportText;
+        reportList.appendChild(reportItem);
+        document.getElementById('report-issue').value = ''; // Clear input
+    });
+    </script>
+</body>
+</html>

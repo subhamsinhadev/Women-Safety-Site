@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>West Bengal Map with Markers</title>
+    <div class ="container">
+        <h1>HOTSPOTS DISPLAY</h1>
+    </div>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="live.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        margin-top: 100px;
+        }
+        .container {
+            background-color:#B692C2;
+            width: 70%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 10px;
+            height: 90px;
+            position: absolute;
+            top: 8%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-size: 15px;
+            font-style: normal;
+            text-align: center;
+            
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFDFD6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+   
+    
+    <div id="map"></div>
+
+    <script>
+        // Initialize the map centered on West Bengal, India
+        var map = L.map('map').setView([22.9868, 87.8550], 7);  // Latitude/Longitude of West Bengal
+        
+        // Load the base tile layer from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Load West Bengal GeoJSON boundary
+        var geojsonPath = 'https://raw.githubusercontent.com/geohacker/india/master/state/west_bengal.geojson';  // West Bengal boundary
+        fetch(geojsonPath)
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function (feature) {
+                        return { color: "#0000FF", weight: 2 };  // Blue border for West Bengal
+                    }
+                }).addTo(map);
+            });
+
+        // Places to mark (you can add more cities or landmarks as needed)
+        var places = [
+            { name: "Kolkata", lat: 22.5726, lon: 88.3639 },
+            { name: "Darjeeling", lat: 27.0410, lon: 88.2663 },
+            { name: "Siliguri", lat: 26.7271, lon: 88.3953 },
+            { name: "Digha", lat: 21.6216, lon: 87.5085 },
+            { name: "Murshidabad", lat: 24.1833, lon: 88.2716 },
+            { name: "Esplanade", lat: 22.5653, lon:88.3519},
+            { name: "Park circus", lat: 22.5379, lon:88.3682},
+            { name: "Raja Bazar", lat: 22.5731, lon:88.3756},
+            { name: "ShovaBazar", lat: 22.5982, lon : 88.3640},
+            { name: "Khidirpore", lat: 22.5372 , lon:88.3231},
+            { name: "Topsia", lat: 22.5399, lon:88.3874},
+            { name: "BaraBazar", lat: 22.5780, lon:88.3537}
+        ];
+
+        // Add markers for each place
+        places.forEach(function(place) {
+            var marker = L.marker([place.lat, place.lon]).addTo(map);
+            marker.bindPopup("<b>" + place.name + "</b>").openPopup();
+        });
+    </script>
+
+</body>
+</html>

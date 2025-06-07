@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Our App - Isha</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            overflow: hidden; /* Prevent scrollbars during animation */
+        }
+
+        .about-dialog {
+            background: #ffffff;
+            border-radius: 20px; /* Rounded corners */
+            padding: 20px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid #e91e63; /* Border color */
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .typewriter h2 {
+            color: #e91e63;
+            font-size: 24px;
+            margin-bottom: 20px;
+            overflow: hidden; /* Ensures text doesn't overflow */
+            border-right: .15em solid #e91e63; /* Cursor effect */
+            white-space: nowrap; /* Keeps text on a single line */
+            letter-spacing: .1em; /* Spacing between letters */
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #e91e63; }
+        }
+
+        .about-dialog p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .quote {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+            font-style: italic;
+            color: #444;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+
+        .quote::before {
+            content: "“";
+            font-size: 40px;
+            color: #e91e63;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+
+        .quote::after {
+            content: "”";
+            font-size: 40px;
+            color: #e91e63;
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+        }
+
+        .close-btn {
+            background-color: #e91e63;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            animation: buttonIn 1s ease-out;
+        }
+
+        @keyframes buttonIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-btn:hover {
+            background-color: #d81b60;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .typewriter h2 {
+                font-size: 20px;
+            }
+
+            .about-dialog {
+                padding: 15px;
+                border-width: 1px;
+            }
+
+            .quote {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .close-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="about-dialog" id="aboutDialog">
+    <div class="typewriter">
+        <h2>About Our App - Isha</h2>
+    </div>
+    <p>Our app 'Isha' is designed to empower and protect women by identifying and alerting them about unsafe areas in real time. Utilizing advanced AI and machine learning algorithms, the app analyzes crime data to pinpoint hotspots and provides users with timely notifications, safety tips, and emergency contacts. Our goal is to create a safer environment where women can feel secure and confident in their daily lives.</p>
+    
+    <div class="quote">
+        A woman with a voice is, by definition, a strong woman.
+    </div>
+    
+    <button class="close-btn" onclick="closeDialog()">Close</button>
+</div>
+
+<script>
+    function closeDialog() {
+        const dialog = document.getElementById('aboutDialog');
+        dialog.style.opacity = '0';
+        dialog.style.transform = 'scale(0.9)';
+        setTimeout(() => dialog.style.display = 'none', 500);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typewriter Text Animation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="typewriter">
+        <h1>Welcome to SafeSteps for Every Woman</h1>
+    </div>
+</body>
+</html>
+
+
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #222;
+    color: #00ff99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.typewriter h1 {
+    overflow: hidden; /* Ensures the content is hidden initially */
+    border-right: .15em solid #00ff99; /* Cursor effect */
+    white-space: nowrap; /* Keeps the text on one line */
+    margin: 0 auto; /* Centers the text */
+    letter-spacing: .15em; /* Adds some spacing between letters */
+    animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00ff99 }
+}

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Support</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #f7f6f6, #ffffff);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 3em;
+            border-right: .1em solid #666;
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 0;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #666; }
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 25px;
+            width: 320px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6363, #ffa36c);
+            z-index: -1;
+            transition: 0.3s;
+            opacity: 0;
+        }
+
+        .card:hover::before {
+            opacity: 0.1;
+        }
+
+        .card h2 {
+            font-size: 1.8em;
+            color: #ff6363;
+        }
+
+        .card p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.5em;
+            color: white;
+            background: linear-gradient(45deg, #ff6363, #ff9472);
+            border: none;
+            border-radius: 30px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 6px 15px rgba(255, 99, 99, 0.5);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #ff4a4a, #ff806e);
+        }
+
+        /* Dialog CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            color: #ff6363;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .modal-content textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background: #ff6363;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-content button:hover {
+            background: #ff4c4c;
+        }
+
+        /* Toast Message */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        /* Contact Form Styles */
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            max-width: 1000px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .contact-form img {
+            border-radius: 10px;
+            max-width: 40%;
+            object-fit: cover;
+        }
+
+        .form-content {
+            padding: 20px;
+            flex: 1;
+            background: white; /* Ensures white background for the form content */
+            border-radius: 10px; /* Matches the border radius of the contact-form */
+        }
+
+        .form-content h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-content input, .form-content textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-content textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-content button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff6f61, #d8345f);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .form-content button:hover {
+            background: linear-gradient(45deg, #d8345f, #ff6f61);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Volunteer Support</h1>
+
+    <!-- Container for NGO cards -->
+    <div class="container">
+        <div class="card">
+            <h2>Women Empowerment Foundation</h2>
+            <p>This NGO focuses on empowering women through education, vocational training, and legal aid. They provide support to women in rural areas to help them gain financial independence.</p>
+        </div>
+
+        <div class="card">
+            <h2>Aangan Trust</h2>
+            <p>Aangan works with children in dangerous situations, including trafficking and early marriage, and helps to prevent harm to women and girls by empowering them with necessary skills.</p>
+        </div>
+
+        <div class="card">
+            <h2>Snehalaya</h2>
+            <p>Snehalaya provides shelter, healthcare, education, and rehabilitation to women and children who are victims of human trafficking, domestic violence, or exploitation.</p>
+        </div>
+
+        <div class="card">
+            <h2>Sayodhya Home for Women</h2>
+            <p>This NGO offers shelter to women in distress, particularly victims of domestic violence, and provides legal and emotional support to help them rebuild their lives.</p>
+        </div>
+
+        <div class="card">
+            <h2>Azad Foundation</h2>
+            <p>Azad Foundation provides livelihood training to marginalized women, enabling them to work as professional drivers and help them transform their lives for economic independence.</p>
+        </div>
+
+        <div class="card">
+            <h2>Sakshi</h2>
+            <p>Sakshi is dedicated to addressing violence against women and promoting gender equality. It provides legal and counseling services to women in need of safety and protection.</p>
+        </div>
+
+        <div class="card">
+            <h2>Majlis</h2>
+            <p>Majlis provides legal advocacy and support to women facing domestic violence and sexual abuse. Their mission is to ensure women's safety through legal empowerment and justice.</p>
+        </div>
+
+        <div class="card">
+            <h2>SafeCity</h2>
+            <p>SafeCity collects anonymous reports of sexual harassment and abuse in public spaces and works to make these spaces safer for women. They encourage community-based solutions for women's safety.</p>
+        </div>
+
+        <div class="card">
+            <h2>Breakthrough India</h2>
+            <p>Breakthrough India runs campaigns and programs to combat gender-based violence and discrimination. They focus on changing attitudes and social norms that hinder women's safety.</p>
+        </div>
+
+        <div class="card">
+            <h2>Jagori</h2>
+            <p>Jagori promotes women's rights and safety by raising awareness about gender-based violence. They conduct safety audits and help create safe spaces for women in urban and rural areas.</p>
+        </div>
+        
+</div>
+
+    <!-- Button to open modal -->
+    <button class="btn" onclick="openModal()">Wanna Become a Volunteer?</button>
+
+    <!-- Modal Dialog -->
+    <div id="volunteerModal" class="modal">
+        <div class="modal-content">
+            <h2>Become a Volunteer</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="4356e0b1-742f-4cee-ba44-4cec4da50d60">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email Id" required>
+                <input type="tel" name="contact" placeholder="Contact No" required>
+                <textarea name="about_you" placeholder="About You" required></textarea>
+                <textarea name="previous_activities" placeholder="Previous Activities in Women Safety and Empowerment" required></textarea>
+                <button type="submit">Submit Your Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Application submitted. Team will contact you ASAP.</div>
+
+    <script>
+        // Open the modal
+        function openModal() {
+            document.getElementById('volunteerModal').style.display = 'flex';
+        }
+
+        // Close the modal and show toast message
+        function submitApplication(event) {
+            event.preventDefault(); // Prevents default form submission
+            // Close the modal
+            document.getElementById('volunteerModal').style.display = 'none';
+
+            // Show the toast message
+            var toast = document.getElementById('toast');
+            toast.className = "toast show";
+            setTimeout(function() { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('volunteerModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>        
+        

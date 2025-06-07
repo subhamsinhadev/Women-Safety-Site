@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scream Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+        }
+        p {
+            color: #555;
+        }
+        .card {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+        }
+        #alert-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f44336;
+            color: white;
+            border-radius: 10px;
+            padding: 30px;
+            z-index: 1000;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            animation: alertAnimation 0.5s ease-out;
+        }
+        @keyframes alertAnimation {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+        button {
+            background-color: #6200ea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Scream Detection System</h1>
+    <p>Allow microphone access to detect scream sounds.</p>
+
+    <div class="card">
+        <p>Scream detection is enabled. Stay safe!</p>
+        <button onclick="alertDialog.style.display = 'block'">Test Alert</button>
+    </div>
+
+    <div id="alert-dialog">
+        <h2>Emergency Alert!</h2>
+        <p>Scream Detected!</p>
+    </div>
+
+    <script>
+        const alertDialog = document.getElementById('alert-dialog');
+
+        // Get microphone access and process audio
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+
+                analyser.fftSize = 512;
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                function detectScream() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let maxVolume = Math.max(...dataArray);
+                    
+                    if (maxVolume > 200) {  // Threshold for detecting a loud sound (potential scream)
+                        alertDialog.style.display = 'block';  // Show emergency alert
+                    }
+
+                    requestAnimationFrame(detectScream);
+                }
+
+                detectScream();
+            })
+            .catch(error => {
+                console.error('Error accessing microphone:', error);
+            });
+    </script>
+
+</body>
+</html>
