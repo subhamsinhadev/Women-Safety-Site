@@ -46,16 +46,19 @@ Tech Stack:
 Frontend:
 - HTML, CSS, JavaScript
 
-Backend:
-- Flask (Python), Node.js, React.js, Axios
-
-AI & ML:
-- Python, TensorFlow, Keras, NumPy, Scikit-learn, AIML
-
+Hosting & DataBases:
+- Google Analytics
+- MySql
+- VS Code
+  
 API Integrations:
 - Google Maps API
 - Razorpay (for donation features - future scope)
 - Gemini API (for chatbot or assistant)
+- Voice Recognition
+- Face Recognition
+- GPS API
+- Google Radius API 
 
 
 
